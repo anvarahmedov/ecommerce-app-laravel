@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Container\Attributes\Auth;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -12,7 +13,9 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware('auth:sanctum');
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
