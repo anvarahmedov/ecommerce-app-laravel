@@ -2,6 +2,7 @@ import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
@@ -89,20 +90,26 @@ export default function Login({
                 </label>
             </div>
 
-            <div className="mt-4 flex items-center justify-end">
-                {canResetPassword && (
-                    <Link
-                        href={route('password.request')}
-                        className="link me-4"
-                    >
-                        Forgot your password?
-                    </Link>
-                )}
+            <div className="mt-4 flex justify-between items-center">
+    {/* Wrapper for "Forgot your password?" */}
+    <div className="flex justify-start">
+        {canResetPassword && (
+            <Link
+                href={route('password.request')}
+                className="link me-4"
+            >
+                Forgot your password?
+            </Link>
+        )}
+    </div>
 
-                <PrimaryButton className="ms-0" disabled={processing}>
-                    Log in
-                </PrimaryButton>
-            </div>
+    {/* Wrapper for the button */}
+    <div className="flex justify-end">
+        <PrimaryButton className="ms-0 text-purpure" disabled={processing}>
+            <p className='ms-5 me-5'>Login</p>
+        </PrimaryButton>
+    </div>
+</div>
         </form>
 
         <div className="mt-4 text-center">

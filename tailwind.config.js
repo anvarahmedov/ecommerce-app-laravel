@@ -16,7 +16,8 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                purpure: '#F020D8'
+                purpure: '#F020D8',
+                mozilla_gray: '#121212'
             }
         },
     },
