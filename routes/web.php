@@ -5,17 +5,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Container\Attributes\Auth;
+use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('dashboard')->middleware('auth:sanctum');
+Route::get('/', [ProductController::class, 'home'])->name('dashboard')->middleware('auth:sanctum');
 
-
+Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 
 //Route::get('/dashboard', function () {
  //   return Inertia::render('Dashboard');

@@ -19,18 +19,25 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Database\Eloquent\Model;
+use Filament\FontProviders\GoogleFontProvider;
+use Filament\Support\Colors\ColorManager;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
+
+$colorManager = new ColorManager();
+$processedColor = $colorManager->processColor('#F020D8');
+
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('admin')->sidebarWidth('14rem')
             ->login()
             ->colors([
-                'primary' => Color::Purple,
+                'primary' => $processedColor
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -59,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])->font('Inter', 'https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
     }
 
     public function boot() {

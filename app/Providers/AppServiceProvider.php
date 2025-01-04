@@ -29,9 +29,16 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerUserMenuItems([
                 'custom-action' => UserMenuItem::make()
                     ->label('Home') // The label of your button
-                    ->url('http://127.0.0.1:8000') // The URL it should point to
+                    ->url('http://localhost:8000') // The URL it should point to
                     ->icon('heroicon-o-home'), // Icon from Heroicons
             ]);
+
+
         });
+      //  Filament::serving(function () {
+      //      Filament::registerTheme(
+      //          config('colors.primary') ,
+      //      );
+      //  });
     }
 }

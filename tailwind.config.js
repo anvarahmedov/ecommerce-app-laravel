@@ -13,11 +13,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-            colors: {
+                merriweather: ['Merriweather', 'serif']
+                        },            colors: {
                 purpure: '#F020D8',
-                mozilla_gray: '#121212'
+                mozilla_gray: '#808080'
             }
         },
     },

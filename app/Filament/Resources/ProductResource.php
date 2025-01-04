@@ -3,6 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Resources\ProductResource\Pages\EditProduct;
+use App\Filament\Resources\ProductResource\Pages\ProductImages;
+use App\Filament\Resources\ProductResource\Pages\ProductVariations;
+use App\Filament\Resources\ProductResource\Pages\ProductVariationTypes;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use App\ProductStatusEnum;
@@ -21,12 +25,17 @@ use Filament\Forms\Components\Select;
 use Filament\Facades\Filament;
 use App\RolesEnum;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Pages\Page;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-queue-list';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
     public static function form(Form $form): Form
     {
@@ -83,10 +92,16 @@ class ProductResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->forVendor();
+    }
+
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('images')->collection('images')->limit(1)->conversion('thumb')->label("Image"),
                 TextColumn::make('title')->sortable()->words(10)->searchable(),
                 TextColumn::make('status')->badge()->colors(ProductStatusEnum::colors()),
                 TextColumn::make('department.name'),
@@ -122,11 +137,25 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'images' => Pages\ProductImages::route('/{record}/images'),
+            'variation_types' => Pages\ProductVariationTypes::route('/{record}/variation-types'),
+            'product_variations' => Pages\ProductVariations::route('/{record}/product-variations'),
         ];
     }
 
     public static function canViewAny(): bool {
         $user = Filament::auth()->user();
         return $user && $user->hasRole(RolesEnum::Vendor);
+    }
+
+    public static function getRecordSubNavigation(Page $page): array {
+        return
+            $page->generateNavigationItems([
+                EditProduct::class,
+                ProductImages::class,
+                ProductVariationTypes::class,
+                ProductVariations::class,
+        ])
+        ;
     }
 }
