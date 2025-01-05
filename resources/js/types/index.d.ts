@@ -7,6 +7,20 @@ export interface User {
     email_verified_at?: string;
 }
 
+export type VariationTypeOption = {
+  id: number;
+  name: string;
+  images: Image[];
+  type: variationType
+}
+
+export type variationType = {
+  id:number;
+  name:string;
+  type: 'select' | 'radio' | 'image';
+  options: VariationTypeOption[]
+}
+
 export type Product = {
     id: number;
     title: string;
@@ -14,6 +28,9 @@ export type Product = {
     price: number;
     quantity: number;
     image: string;
+    images: Image[];
+    short_description: string;
+    description: string;
     user: {
       id: number;
       name: string;
@@ -22,6 +39,22 @@ export type Product = {
       id: number;
       name: string;
     };
+    variationTypes: variationType[],
+    variations: Array<{
+      id: number;
+      variation_type_option_ids:number[];
+      quantity:number;
+      price:number;
+    }>
+}
+
+export type Image = {
+  id: number;
+  thumb:string;
+  small:string;
+  medium:string;
+  large:string;
+
 }
 
 export type PaginationProps<T> = {

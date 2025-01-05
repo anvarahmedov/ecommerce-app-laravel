@@ -19,6 +19,14 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
+  //  protected $fillable = [
+  //      'slug', 'title'
+  //  ];
+
+ // public function getSlug(Product $product) {
+ //   return $product->slug;
+ // }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
@@ -44,6 +52,10 @@ class Product extends Model implements HasMedia
     public function variations() {
         return $this->hasMany(ProductVariation::class, 'product_id');
     }
+
+ //   public function options() {
+  //      return $this->hasMany(VariationTypeOption::class);
+  //  }
 
     public function scopeForVendor(Builder $query): Builder {
         return $query->where('created_by', auth()->user()->id);

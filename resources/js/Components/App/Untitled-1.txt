@@ -1,0 +1,1 @@
+'variation_type_' . ($this->record->variation_types->first()->id)]['id'
