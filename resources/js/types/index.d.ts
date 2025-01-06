@@ -42,7 +42,7 @@ export type Product = {
     variationTypes: variationType[],
     variations: Array<{
       id: number;
-      variation_type_option_ids:number[];
+      variation_type_options_ids:number[];
       quantity:number;
       price:number;
     }>
@@ -52,9 +52,7 @@ export type Image = {
   id: number;
   thumb:string;
   small:string;
-  medium:string;
   large:string;
-
 }
 
 export type PaginationProps<T> = {
