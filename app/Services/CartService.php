@@ -4,6 +4,8 @@ namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\VariationTypeOption;
+use Illuminate\Support\Facades\Log;
+use App\Models\CartItem;
 
 class CartService
 {
@@ -70,26 +72,49 @@ class CartService
                     'id' => $cartItem['id'],
                     'product_id' => $product->id,
                     'title' => $product->title,
-                    'slug' => $product->slug
+                    'slug' => $product->slug,
+                    'price' => $cartItem['price'],
+                    'quantity' => $cartItem['quantity'],
+                    'options_ids' => $cartItem['options_ids'],
+                    'options' => $optionInfo,
+                    'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
+                    'user' => [
+                        'id' => $product->created_by,
+                        'name' => $product->user->vendor->store_name
+                    ]
                  ];
             }
+
+            $this->cachedCardItems = $cartItemData;
         }
         return $this->cachedCardItems;
     } catch (\Exception $e) {
-
+        Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
     }
+    return [];
    }
 
    public function getTotalQuantity(): int {
-
+    $totalQuantity = 0;
+    foreach ($this->getCartItems() as $item) {
+        $totalQuantity += $item['quantity'];
+    }
+    return $totalQuantity;
    }
 
    public function getTotalPrice(): float {
-
+    $total = 0;
+    foreach ($this->getCartItems() as $item) {
+        $total += $item['quantity'] * $item['price'];
+    }
+    return $total;
    }
 
    protected function updateItemQuantityInDatabase(int $productID, int $quantity, array $optionsIDs) {
+    $userID = Auth::id();
 
+    $cartItem = CartItem::where('user_id', $userID)
+    ->where('product_id', $productID);
    }
 
    protected function updateItemQuantityInCookies(int $productID, int $quantity, array $optionsIDs) {
