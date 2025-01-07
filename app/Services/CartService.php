@@ -3,9 +3,12 @@
 namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\VariationTypeOption;
 use Illuminate\Support\Facades\Log;
 use App\Models\CartItem;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Type\Decimal;
 
 class CartService
 {
@@ -110,23 +113,67 @@ class CartService
     return $total;
    }
 
-   protected function updateItemQuantityInDatabase(int $productID, int $quantity, array $optionsIDs) {
+   protected function updateItemQuantityInDatabase(int $productID, int $quantity, $optionsIDs = null) {
     $userID = Auth::id();
 
     $cartItem = CartItem::where('user_id', $userID)
-    ->where('product_id', $productID);
+    ->where('product_id', $productID)->where('variation_type_options_ids',
+json_decode($optionsIDs))->first();
+
+if ($cartItem) {
+    $cartItem->update([
+        'quantity' => $quantity
+    ]);
+}
    }
 
-   protected function updateItemQuantityInCookies(int $productID, int $quantity, array $optionsIDs) {
+   protected function updateItemQuantityInCookies(int $productID, int $quantity, $optionsIDs = null) {
+        $cartItems = $this->getCartItemsFromCookies();
+        ksort($optionsIDs);
 
+        $itemKey = $productID . '_' . json_encode($optionsIDs);
+
+        if (isset($cartItems[$itemKey])) {
+            $cartItems[$itemKey]['quantity'] = $quantity;
+        }
+
+        Cookie::queue(self::COOKIE_NAME, json_encode($cartItems), self::COOKIE_LIFETIME);
    }
 
-   protected function saveItemToDatabase(int $productID, int $quantity, ) {
+   protected function saveItemToDatabase(int $productID, int $quantity, float|string $price, $optionsIDs = null) {
+    $userID = Auth::id();
+    ksort($optionsIDs);
 
+    $cartItem = CartItem::where('user_id', $userID)
+    ->where('product_id', $productID)
+    ->where('variation_type_options_ids', json_encode($optionsIDs))->first();
+    if ($cartItem) {
+        $cartItem->update([
+            'quantity' => DB::raw('quantity + ' . $quantity)
+        ]);
+    } else {
+        CartItem::create([
+            'user_id' => $userID,
+            'product_id' => $productID,
+            'quantity' => $quantity,
+            'price' => $price,
+            'variation_type_options_ids' => $optionsIDs
+        ])
+    }
    }
 
-   protected function saveItemToCookies() {
+   protected function saveItemToCookies(int $productID, int $quantity, float|string $price, $optionsIDs = null) {
+    $cartItems = $this->getCartItemsFromCookies();
+    ksort($optionsIDs);
 
+    $itemKey = $productID . '_' . json_encode($optionsIDs);
+
+    if (isset($cartItems[$itemKey])) {
+        $cartItems[$itemKey]['quantity'] += $quantity;
+        $cartItems[$itemKey]['quantity'] = $price;
+    } else {
+
+    }
    }
 
    protected function removeItemFromDatabase() {
