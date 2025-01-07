@@ -1,13 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { PageProps, PaginationProps, Product } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import ProductItem from '@/Components/App/ProductItem';
+import GuestLayout from '@/Layouts/GuestLayout';
 
 export default function Home({
     products
 }: PageProps<{ products: PaginationProps<Product> }>) {
+   // const user = usePage().props.auth?.user;
 
-
+  //  if (!user) {
+    //    return (
+   //
+   //     );
+  //  }
     return (
         <AuthenticatedLayout>
             <Head title="Welcome" />

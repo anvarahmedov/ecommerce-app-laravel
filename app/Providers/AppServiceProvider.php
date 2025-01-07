@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
 use Filament\Navigation\UserMenuItem;
 use App\Services\CartService;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,14 @@ class AppServiceProvider extends ServiceProvider
 
 
         });
+
+    //    Inertia::share([
+   //         'auth' => function () {
+    //            return [
+     //               'user' => auth()->user(),
+     //           ];
+      //      },
+      //  ]);
       //  Filament::serving(function () {
       //      Filament::registerTheme(
       //          config('colors.primary') ,
