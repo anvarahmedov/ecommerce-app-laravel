@@ -35,6 +35,8 @@ function Show({ product, variationOptions }: { product: Product, variationOption
     return product.images;
    }, [product, selectedOptions]);
 
+   const thumbImages = product.images;
+
    const computedProduct = useMemo(() => {
     const selectedOptionsIDs = Object.values(selectedOptions).map(op => op.id).sort();
 
@@ -112,11 +114,12 @@ function Show({ product, variationOptions }: { product: Product, variationOption
         product.variationTypes.map((type: variationType, i: number) => (
             <div key={type.id}>
                 <b>{type.name}</b>
-                {type.type === 'image' && (
+                {type.type === 'Image' && (
                     <div className='flex gap-2 mb-4'>
                         {type.options.map((option: VariationTypeOption) => (
                             <div onClick={() => chooseOption(type.id, option)} key={option.id}>
                                 {option.images && (
+
                                     <img
                                         src={option.images[0].thumb}
                                         alt=''
@@ -132,7 +135,7 @@ function Show({ product, variationOptions }: { product: Product, variationOption
                         ))}
                     </div>
                 )}
-                {type.type === 'radio' && (
+                {type.type === 'Radio' && (
     <div className='flex join mb-4'>
         {type.options.map((option: VariationTypeOption) => (
             <input
