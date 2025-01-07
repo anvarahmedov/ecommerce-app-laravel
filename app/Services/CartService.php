@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use App\Models\VariationTypeOption;
 
 class CartService
 {
@@ -36,7 +37,42 @@ class CartService
             $productIDs = collect($cartItems)
             ->map(fn($item) => $item['product_id']);
             $products = Product::whereIn('id', $productIDs)
-            ->with('user.vendor');
+            ->with('user.vendor')->forWebsite()->get()->keyBy('id');
+
+            $cartItemData = [];
+
+            foreach ($cartItems as $key => $cartItem) {
+                $product = data_get($products, $cartItem['product_id']);
+                if (!$product) continue;
+
+                $optionInfo = [];
+                $options = VariationTypeOption::with('variationType')->whereIn('id',
+                 $cartItem['options_ids'])->get()->keyBy('id');
+
+                 $imageUrl = null;
+
+                 foreach($cartItems['options_ids'] as $option_id) {
+                    $option = data_get($options, $option_id);
+                    if (!$imageUrl) {
+                        $imageUrl = $option->getFirstMediaUrl('images', 'small');
+                    }
+                    $optionInfo[] = [
+                        'id' => $option_id,
+                        'name' => $option->name,
+                        'type' => [
+                            'id' => $option->variationType->id,
+                            'name' => $option->variationType->name
+                        ]
+                    ];
+                 }
+
+                 $cartItemData[] = [
+                    'id' => $cartItem['id'],
+                    'product_id' => $product->id,
+                    'title' => $product->title,
+                    'slug' => $product->slug
+                 ];
+            }
         }
         return $this->cachedCardItems;
     } catch (\Exception $e) {

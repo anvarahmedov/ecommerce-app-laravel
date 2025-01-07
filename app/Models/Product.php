@@ -61,6 +61,10 @@ class Product extends Model implements HasMedia
         return $query->where('created_by', auth()->user()->id);
     }
 
+    public function scopeForWebsite(Builder $query): Builder {
+        return $query->published();
+    }
+
     public function scopePublished(Builder $query): Builder {
         return $query->where('status', ProductStatusEnum::Published);
     }

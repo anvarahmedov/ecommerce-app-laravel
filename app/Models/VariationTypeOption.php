@@ -15,6 +15,7 @@ class VariationTypeOption extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
+        //
         //\Log::info('Registering media conversions for VariationTypeOption');
         $this->addMediaConversion('thumb')
             ->width(100);
@@ -22,5 +23,9 @@ class VariationTypeOption extends Model implements HasMedia
             ->width(480);
         $this->addMediaConversion('large')
             ->width(1200);
+    }
+
+    public function variationType() {
+        return $this->belongsTo(VariationType::class);
     }
 }
