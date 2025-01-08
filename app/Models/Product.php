@@ -68,4 +68,16 @@ class Product extends Model implements HasMedia
     public function scopePublished(Builder $query): Builder {
         return $query->where('status', ProductStatusEnum::Published);
     }
+
+    public function getPriceForOptions($optionsIDs = []) {
+        $optionsIDs = array_values($optionsIDs);
+        sort($optionsIDs);
+        foreach($this->variations as $variation) {
+            $a = $variation->variation_type_options_ids;
+            sort($a);
+            if ($optionsIDs == $a) {
+                return $variation->price !== null ? $variation->price : $this->price;
+            }
+        }
+    }
 }
