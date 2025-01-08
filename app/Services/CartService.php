@@ -38,11 +38,19 @@ class CartService
    }
 
    public function updateItemQuantity(int $productID, int $quantity, $optionsIDs = null) {
-
+        if (\Auth::check()) {
+            $this->updateItemQuantityInDatabase($productID, $quantity, $optionsIDs);
+        } else {
+            $this->updateItemQuantityInCookies($productID, $quantity, $optionsIDs);
+        }
    }
 
    public function removeItemFromCart(int $productID, $optionsIDs = null) {
-
+    if (\Auth::check()) {
+        $this->removeItemFromDatabase($productID, $optionsIDs);
+    } else {
+        $this->removeItemFromCookies($productID, $optionsIDs);
+    }
    }
 
    public function getCartItems(): array {
