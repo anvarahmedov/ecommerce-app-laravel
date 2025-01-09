@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
        // dd($totalPrice, $totalQuantity, $cartItems);
         return [
             ...parent::share($request),
+
             'auth' => [
                 'user' => $request->user(),
             ],
@@ -56,7 +57,8 @@ class HandleInertiaRequests extends Middleware
             'success' => session('success'),
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,
-            'cartItems' => $cartItems
+            'cartItems' => $cartItems,
+            'csrf_token' => csrf_token(),
         ];
     }
 }

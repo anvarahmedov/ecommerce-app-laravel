@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Models\Product;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
@@ -13,7 +14,11 @@ class CartController extends Controller
      */
     public function index(CartService $cartService)
     {
-        dd($cartService);
+        return Inertia::render(
+            'Cart/Index', [
+                'cartItems' => $cartService->getCartItemsGrouped(),
+            ]
+            );
     }
 
     /**
