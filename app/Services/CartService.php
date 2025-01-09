@@ -88,10 +88,22 @@ class CartService
     ->keyBy('id');
 
                  $imageUrl = null;
-                foreach($cartItems as $cartItem) {
+
+          //          $options = VariationTypeOption::with('variationType')
+   // ->whereIn('id', json_decode($cartItem['option_ids'], true))  // Decode JSON and get array values
+   // ->get()
+  //  ->keyBy('id');
                  foreach(json_decode($cartItem['option_ids'], true) as $option_id) {
+                    //dd(json_decode($cartItem['option_ids'], true));
+                  //  dd($options);
                     //dd($option_id);
+                 //   dd(json_decode($cartItem['option_ids'], true));
+                   // dd(data_get($options, 2));
                     $option = data_get($options, $option_id);
+                  //  if (!$option) {
+                 //       continue; // Skip this option if it doesn't exist
+                 //   }
+                 //   dd($option->name);
                     if (!$imageUrl) {
                         $imageUrl = $option->getFirstMediaUrl('images', 'small');
                     }
@@ -104,7 +116,7 @@ class CartService
                         ]
                     ];
                  }
-                }
+
               //  dd($user = User::with('vendor')->find($product->user->id)->vendor);
                // dd(Vendor::where('user_id', $product->user->id));
 
