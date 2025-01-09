@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
        // dd(auth()->check());
        // dd($cartService->getCartItems());
        // dd($totalQuantity);
-        dd($totalPrice, $totalQuantity, $cartItems);
+       // dd($totalPrice, $totalQuantity, $cartItems);
 
        // dd($totalPrice, $totalQuantity, $cartItems);
         return [
@@ -54,6 +54,8 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'success' => session('success'),
+            'totalPrice' => $totalPrice,
+            'totalQuantity' => $totalQuantity,
             'cartItems' => $cartItems
         ];
     }
