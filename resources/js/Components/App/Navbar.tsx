@@ -44,7 +44,7 @@ function Navbar() {
       </div>
     </div>
     <div className="dropdown dropdown-end ms-4">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar me-1 sm:me-2 md:me-3 lg:me-4 xl:me-6">
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
