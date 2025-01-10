@@ -1,6 +1,6 @@
 import CurrencyFormatter from "@/Components/CurrencyFormatter";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
+import { GroupedCartItems, PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 function Index(  {
     csrf_token,
