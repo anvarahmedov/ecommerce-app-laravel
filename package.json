@@ -26,6 +26,7 @@
         "vite": "^6.0"
     },
     "dependencies": {
+        "@heroicons/react": "^2.2.0",
         "daisyui": "^4.12.22",
         "react-helmet": "^6.1.0"
     }

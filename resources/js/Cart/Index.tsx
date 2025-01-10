@@ -1,3 +1,4 @@
+import CurrencyFormatter from "@/Components/CurrencyFormatter";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
@@ -40,6 +41,13 @@ function Index(  {
                 </form>
             </div>
         </div>
+        {cartItems.map((item: any) => (
+            <CartItem item={item} key={item.id}/>
+        )
+    )
+
+
+        }
     </div>
 ))}
                         </div>
@@ -47,7 +55,15 @@ function Index(  {
                 </div>
                 <div className="card bg-white dark:bg-gray-800 lg:min-w-[260px] order-1 lg:order-2">
                     <div className="card-body">
-
+                        Subtotal: ({totalQuantity} items): &nbsp;
+                        <CurrencyFormatter amount = {totalPrice}/>
+                        <form action={route('cart.checkout')} method="post">
+                            <input type="hidden" name="_token" value={csrf_token}/>
+                            <PrimaryButton className='rounded-full'>
+                                <CreditCardIcon className={"size-6"}/>
+                                Proceed to checkout
+                            </PrimaryButton>
+                        </form>
                     </div>
                 </div>
             </div>
