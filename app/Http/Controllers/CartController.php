@@ -40,6 +40,8 @@ class CartController extends Controller
             'quantity' => ['required', 'integer', 'min:1']
         ]);
 
+      //  dd($product->price);
+
         $cartService->addItemToCart($product, $data['quantity'],
         $data['options_ids']);
 
@@ -83,5 +85,9 @@ class CartController extends Controller
         $cartService->removeItemFromCart($product->id, $options_ids);
 
         return back()->with('success', 'Product was removed from cart');
+    }
+
+    public function checkout() {
+
     }
 }

@@ -57,7 +57,7 @@ class HandleInertiaRequests extends Middleware
             'success' => session('success'),
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,
-            'cartItems' => $cartItems,
+            'miniCartItems' => $cartItems,
             'csrf_token' => csrf_token(),
         ];
     }

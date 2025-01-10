@@ -1,6 +1,8 @@
 import CurrencyFormatter from "@/Components/CurrencyFormatter";
+import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { GroupedCartItems, PageProps } from "@/types";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
 import { Head, Link } from "@inertiajs/react";
 function Index(  {
     csrf_token,
@@ -41,13 +43,11 @@ function Index(  {
                 </form>
             </div>
         </div>
-        {cartItems.map((item: any) => (
-            <CartItem item={item} key={item.id}/>
-        )
-    )
-
-
-        }
+        {Object.values(cartItems).map((item: any) => (
+    <div key={item.id}>
+        {JSON.stringify(item, undefined, 2)}
+    </div>
+))}
     </div>
 ))}
                         </div>

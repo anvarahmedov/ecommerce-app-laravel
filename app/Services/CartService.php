@@ -24,14 +24,20 @@ class CartService
 
 
    public function addItemToCart(Product $product, int $quantity = 1, array $optionsIDs = null) {
-        if ($optionsIDs === null) {
+    //dd($optionsIDs === null);
+    if ($optionsIDs === null) {
             $optionsIDs = $product->variation_types->mapWithKeys(fn(VariationType $type)
             =>
             [$type->id => $type->options[0]?->id]
         )->toArray();
+
         }
 
+
+
         $price = $product->getPriceForOptions($optionsIDs);
+
+
 
         if (Auth::check()) {
             $this->saveItemToDatabase($product->id, $quantity, $price, $optionsIDs);
