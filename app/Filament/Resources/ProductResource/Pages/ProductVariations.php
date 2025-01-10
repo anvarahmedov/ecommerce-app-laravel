@@ -20,6 +20,8 @@ class ProductVariations extends EditProduct
 {
     protected static string $resource = ProductResource::class;
 
+
+
     protected static ?string $title = 'Variations';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
@@ -48,6 +50,12 @@ class ProductVariations extends EditProduct
                     ])->columns(2)->columnSpan(2)->addable(false)->label(false),
             ]);
     }
+
+
+
+
+
+
 
     protected function getHeaderActions(): array
     {
@@ -80,7 +88,8 @@ class ProductVariations extends EditProduct
     }
 
     private function mergeCartesianWithExisting($variationTypes, $existingData) :array{
-       // dd($existingData);
+    //dd($existingData);
+        //    dd($this->record->quantity);
         $defaultQuantity = $this->record->quantity;
         $defaultPrice = $this->record->price;
         $cartesianProduct = $this->cartesianProduct($variationTypes, $defaultQuantity, $defaultPrice);
@@ -93,13 +102,15 @@ class ProductVariations extends EditProduct
             str_starts_with($key, 'variation_type_'))
             ->map(fn($option) => $option['id'])->values()->toArray();
 
+
            // dd($optionsIDs);
 
             $match = array_filter($existingData, function ($existingOption)
             use ($optionsIDs) {
-                //dd(json_encode($existingOption['variation_type_options_ids']) === $optionsIDs);
+
+               // dd($existingOption['variation_type_options_ids'] === $optionsIDs);
                 //dd('asdsd');
-                return json_encode($existingOption['variation_type_options_ids']) === $optionsIDs;
+                return $existingOption['variation_type_options_ids'] === $optionsIDs;
             });
 
            // dd($match);
@@ -107,10 +118,12 @@ class ProductVariations extends EditProduct
             if (!empty($match)) {
                 //dd('asdsd');
                 $existingEntry = reset($match);
+            //    dd($existingEntry);
                 $product['id'] = $existingEntry['id'];
                 $product['quantity'] = $existingEntry['quantity'];
                 $product['price'] = $existingEntry['price'];
             } else {
+
                // dd('asdsd');
                 $product['quantity'] = $defaultQuantity;
                 $product['price'] = $defaultPrice;
@@ -188,7 +201,7 @@ class ProductVariations extends EditProduct
               //  'id' => ProductVariation::max('id'),
                 //'id' => $option['id'],
                 'id' => $index + 1,
-                 'variation_type_options_ids' => $variationTypeOptionIds,
+                'variation_type_options_ids' => $variationTypeOptionIds,
                 'quantity' => $quantity,
                 'price' => $price,
             ];
