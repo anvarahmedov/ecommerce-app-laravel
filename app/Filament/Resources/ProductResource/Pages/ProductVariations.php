@@ -40,9 +40,10 @@ class ProductVariations extends EditProduct
         return $form
             ->schema([
                 Repeater::make('variations')
-                    ->collapsible()->defaultItems(1)->schema([
+                   ->collapsible()->defaultItems(1)->schema([
                         Section::make()->schema($fields)->columns(3),
-                        TextInput::make('quantity')->label('Quantity')->numeric(),
+                        TextInput::make('quantity')->label('Quantity')
+                        ->numeric(),
                         TextInput::make('price')->label('Price')->numeric()
                     ])->columns(2)->columnSpan(2)->addable(false)->label(false),
             ]);
@@ -163,8 +164,9 @@ class ProductVariations extends EditProduct
 
 
         foreach ($data['variations'] as $index => $option) {
+           // dd($option);
 
-           // dd($this->record);
+            //dd($this->record);
             //dd($this->record->variation_types->first()->id)['id'];
             //dd($option::exists());
             //ProductVariation::where('id', $option['id'])->exists();
@@ -179,17 +181,19 @@ class ProductVariations extends EditProduct
 
             //dd($index);
 
-
+            $this->record->variations->first();
 
             $formattedData[] = [
-              //  'id' => $option['variation_type_' . ($this->record->variation_types->first()->id)]['id'],
-                'id' => ProductVariation::max('id') + 1,
+
+              //  'id' => ProductVariation::max('id'),
                 //'id' => $option['id'],
+                'id' => $index + 1,
                  'variation_type_options_ids' => $variationTypeOptionIds,
                 'quantity' => $quantity,
                 'price' => $price,
             ];
         }
+
        // dd($formattedData);
         $data['variations'] = $formattedData;
        // dd($data);
@@ -199,16 +203,16 @@ class ProductVariations extends EditProduct
     protected function handleRecordUpdate(\Illuminate\Database\Eloquent\Model $record, array $data): \Illuminate\Database\Eloquent\Model {
    //  dd($data);
         $variations = $data['variations'];
-  
+
 
         unset($data['variations']);
 
         $variations = collect($variations)->map(function ($variation) {
 
-            dd(ProductVariation::
-            where('variation_type_options_ids', $variation['variation_type_options_ids'])
-            ->where('quantity', $variation['quantity'])
-            ->where('price', $variation['price'])->exists());
+        //    dd(ProductVariation::
+       //     where('variation_type_options_ids', $variation['variation_type_options_ids'])
+       //     ->where('quantity', $variation['quantity'])
+       //     ->where('price', $variation['price'])->exists());
           //  dd(end($variation['variation_type_options_ids']));
         //    if ($variation['id'] === end($variation['variation_type_options_ids'])) {
             //    $variation['id'] = $variation['id'] - 1;
@@ -221,7 +225,7 @@ class ProductVariations extends EditProduct
                 'price' => $variation['price']
             ];
         })->toArray();
-
+   //dd($variations);
    //     dd($variations);
 
       //  dd($data);
@@ -239,11 +243,12 @@ class ProductVariations extends EditProduct
     //dd($variations->variation_type_options_ids);
         $record->variations()
         ->upsert($variations,
+
         ['id'],
         ['variation_type_options_ids', 'quantity', 'price']);
     //    $record->variations()->createMany($variations);
       // Check if this works for one variation
-
+     //   dd($record->variations);
 
         return $record;
     }

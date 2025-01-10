@@ -19,8 +19,7 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
-   
-
+    protected $with = ['variations'];
   //  protected $fillable = [
   //      'slug', 'title'
   //  ];
@@ -38,6 +37,11 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('large')
             ->width(1200);
     }
+
+    protected $fillable = [
+        // Other fillable attributes
+        'variations',
+    ];
 
     public function department() {
         return $this->belongsTo(Department::class);

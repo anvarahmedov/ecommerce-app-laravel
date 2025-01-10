@@ -12,7 +12,7 @@ class ProductVariation extends Model
 
     protected $fillable = [
         'quantity',
-        'price',
+        'price'
     ];
 
     public function variation_type_options() {

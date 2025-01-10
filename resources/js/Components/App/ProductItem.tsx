@@ -1,9 +1,9 @@
 import { Product } from '@/types';
 import { Link } from '@inertiajs/react';
-import React from 'react';
+
 import CurrencyFormatter from '../CurrencyFormatter';
 
-export default function ProductItem({product}: {product: Product}) {
+function ProductItem({product}: {product: Product}) {
     return (
         <div className='card bg-base-100 shadow-xl'>
             <Link href={route('product.show', product.slug)}>
@@ -28,3 +28,5 @@ export default function ProductItem({product}: {product: Product}) {
         </div>
     );
 }
+
+export default ProductItem;
