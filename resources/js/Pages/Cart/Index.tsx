@@ -1,3 +1,4 @@
+import CartItem from "@/Components/App/CartItem";
 import CurrencyFormatter from "@/Components/CurrencyFormatter";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -44,9 +45,7 @@ function Index(  {
             </div>
         </div>
         {cartItem.items.map((item: CartItem) => (
-    <pre>
-        {JSON.stringify(item, undefined, 2)}
-    </pre>
+            <CartItem item = {item} key = {item.id}/>
 ))}
     </div>
 ))}
