@@ -13,6 +13,7 @@ use Ramsey\Uuid\Type\Decimal;
 use Illuminate\Support\Str;
 use App\Models\Vendor;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 
 class CartService
 {
@@ -127,7 +128,7 @@ class CartService
                // dd(Vendor::where('user_id', $product->user->id));
                  //dd(json_decode($cartItem['option_ids']));
                  $cartItemData[] = [
-                    'id' => $cartItem['id'],
+                    'id' => Crypt::encryptString($cartItem['id']),
                     'product_id' => $product->id,
                     'title' => $product->title,
                     'slug' => $product->slug,
