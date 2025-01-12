@@ -2,7 +2,7 @@ import CartItem from "@/Components/App/CartItem";
 import CurrencyFormatter from "@/Components/CurrencyFormatter";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { CartItem, GroupedCartItems, PageProps } from "@/types";
+import {CartItem as CartItemType, GroupedCartItems, PageProps } from "@/types";
 import { CreditCardIcon } from "@heroicons/react/24/outline";
 import { Head, Link } from "@inertiajs/react";
 function Index(  {
@@ -44,7 +44,7 @@ function Index(  {
                 </form>
             </div>
         </div>
-        {cartItem.items.map((item: CartItem) => (
+        {cartItem.items.map((item: CartItemType) => (
             <CartItem item = {item} key = {item.id}/>
 ))}
     </div>
