@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Models\Product;
 use Inertia\Inertia;
+use App\Models\CartItem;
 
 class CartController extends Controller
 {
@@ -81,8 +82,15 @@ class CartController extends Controller
     public function destroy(Request $request, Product $product, CartService $cartService)
     {
         $options_ids = $request->input('options_ids');
+        //dd($options_ids);
 
-        $cartService->removeItemFromCart($product->id, $options_ids);
+        $item = $request->input('item');
+
+       // dd($item);
+
+        $cartService->removeItemFromCart($product->id, $options_ids, $item);
+
+       // dd($cartService->getCartItems());
 
         return back()->with('success', 'Product was removed from cart');
     }

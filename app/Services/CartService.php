@@ -55,10 +55,10 @@ class CartService
         }
    }
 
-   public function removeItemFromCart(int $productID, $optionsIDs = null) {
+   public function removeItemFromCart(int $productID, $optionsIDs = null, $item) {
     //dd($optionsIDs);
     if (Auth::check()) {
-        $this->removeItemFromDatabase($productID, $optionsIDs);
+        $this->removeItemFromDatabase($productID, $optionsIDs, $item);
     } else {
         $this->removeItemFromCookies($productID, $optionsIDs);
     }
@@ -128,7 +128,8 @@ class CartService
                // dd(Vendor::where('user_id', $product->user->id));
                  //dd(json_decode($cartItem['option_ids']));
                  $cartItemData[] = [
-                    'id' => Crypt::encryptString($cartItem['id']),
+                 //   'id' => Crypt::encryptString($cartItem['id']),
+                 'id' => $cartItem['id'],
                     'product_id' => $product->id,
                     'title' => $product->title,
                     'slug' => $product->slug,
@@ -250,14 +251,26 @@ if ($cartItem) {
     Cookie::queue(self::COOKIE_NAME, json_encode($cartItems), self::COOKIE_LIFETIME);
    }
 
-   protected function removeItemFromDatabase(int $productID, array $optionsIDs) {
+   protected function removeItemFromDatabase(int $productID, array $optionsIDs, $item) {
         $userId = Auth::id();
+
+       // dd(User::find($userId));
 
         ksort($optionsIDs);
 
-        CartItem::where('user_id', $userId)->where('product_id', $productID)
-        ->where('variation_type_options_ids', $optionsIDs)
-        ->delete();
+      //  dd($optionsIDs);
+     // dd($item->id);
+      $cartItem = CartItem::where('user_id', $userId)->where('product_id',
+      $productID)
+     ->where('variation_type_options_ids', json_encode($optionsIDs));
+    // dd($cartItem->first());
+   // dd($cartItem->first()->id);
+
+    CartItem::where('id', $item['id'])->delete();
+
+      //  $cartItem->delete();
+
+        //dd($this->getCartItems());
 
 
    }

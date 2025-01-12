@@ -7,14 +7,16 @@ import { productRoute } from '@/helpers';
 
 function CartItem({item}: {item: CartItemType}) {
     const deleteForm = useForm({
-        option_ids: item.option_ids
+        options_ids: item.option_ids,
+        item: item
     })
 
     const [error, setError] = useState('')
 
     const onDeleteClick = () => {
         deleteForm.delete(route('cart.destroy', item.product_id), {
-            preserveScroll: true
+            preserveScroll: true,
+            data: { item }
         })
     }
 
