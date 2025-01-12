@@ -46,7 +46,7 @@ function CartItem({item}: {item: CartItemType}) {
                         </Link>
                     </h3>
                     <div className='text-xs'>
-                        {/*<pre>{JSON.stringify(item, undefined, 2)}*/}
+                        {/*<pre>{JSON.stringify(item, undefined, 2)}</pre>*/}
 
                         {item.options.map((option: VariationTypeOption) => (
                             <div key={option.id}>

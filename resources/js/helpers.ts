@@ -13,6 +13,9 @@ export const productRoute = (
     Object.entries(item.option_ids).forEach(([typeId, optionId]) => {
       params.append(`options[${typeId}]`, optionId + '')
     })
-    return route('product.show', item.slug) + '?' + params.toString;
+    //console.log(params.toString());
+    console.log(item.option_ids);
+
+    return route('product.show', item.slug) + '?' + params.toString();
   }
 )
