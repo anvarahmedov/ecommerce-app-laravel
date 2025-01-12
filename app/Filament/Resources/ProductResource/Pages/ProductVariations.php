@@ -234,6 +234,7 @@ class ProductVariations extends EditProduct
             return [
                 'id' => $variation['id'],
                 'variation_type_options_ids' => json_encode($variation['variation_type_options_ids']),
+                //'variation_type_options_ids' => $variation['variation_type_options_ids'],
                 'quantity' => $variation['quantity'],
                 'price' => $variation['price']
             ];

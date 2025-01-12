@@ -125,7 +125,7 @@ class CartService
 
               //  dd($user = User::with('vendor')->find($product->user->id)->vendor);
                // dd(Vendor::where('user_id', $product->user->id));
-
+                 //dd(json_decode($cartItem['option_ids']));
                  $cartItemData[] = [
                     'id' => $cartItem['id'],
                     'product_id' => $product->id,
@@ -133,7 +133,7 @@ class CartService
                     'slug' => $product->slug,
                     'price' => $cartItem['price'],
                     'quantity' => $cartItem['quantity'],
-                    'option_ids' => $cartItem['option_ids'],
+                    'option_ids' => json_decode($cartItem['option_ids']),
                     'options' => $optionInfo,
                     'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
                     'user' => [
@@ -222,6 +222,7 @@ if ($cartItem) {
             'quantity' => $quantity,
             'price' => $price,
             'variation_type_options_ids' => json_encode($optionsIDs)
+          // 'variation_type_options_ids' => $optionsIDs
         ]);
     }
    }
@@ -276,6 +277,7 @@ if ($cartItem) {
     $userId = Auth::id();
     $cartItems = CartItem::where('user_id', $userId)->get()
     ->map(function($cartItem) {
+       // dd($cartItem->variation_type_options_ids);
         return [
             'id' => $cartItem->id,
             'product_id' => $cartItem->product_id,
