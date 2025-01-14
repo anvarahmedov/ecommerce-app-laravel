@@ -64,9 +64,12 @@ class CartController extends Controller
      */
     public function update(Request $request, Product $product, CartService $cartService)
     {
+        //\Log::info('Cart update method triggered');
         $request->validate([
             'quantity' => ['integer', 'min:1'],
         ]);
+
+       // dd($request);
 
         $optionsIDs = $request->input('options_ids');
         $quantity = $request->input('quantity');

@@ -6,6 +6,9 @@ import CurrencyFormatter from "@/Components/CurrencyFormatter";
 import { productRoute } from '@/helpers';
 
 function CartItem({item}: {item: CartItemType}) {
+    const [quantity, setQuantity] = useState(item.quantity);
+   
+
     const deleteForm = useForm({
         options_ids: item.option_ids,
         item: item
@@ -21,16 +24,17 @@ function CartItem({item}: {item: CartItemType}) {
     }
 
     const handleQuantityChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(ev.target.value);
         setError('')
         router.put(route('cart.update', item.product_id), {
             quantity: ev.target.value,
-            option_ids: item.option_ids
+            options_ids: item.option_ids
         }, {
             preserveScroll: true,
             onError: (errors) => {
                 setError(Object.values(errors)[0])
             }
-        })
+        });
     };
 
     return(
@@ -45,8 +49,10 @@ function CartItem({item}: {item: CartItemType}) {
                     <h3 className='mb-3 text-sm font-semibold'>
                         <Link href={productRoute(item)}>
                         {item.title}
+
                         </Link>
                     </h3>
+
                     <div className='text-xs'>
                         {/*<pre>{JSON.stringify(item, undefined, 2)}</pre>*/}
 
@@ -84,6 +90,8 @@ function CartItem({item}: {item: CartItemType}) {
         <div className='divider'>
 
         </div>
+        <script src="{{ asset('js/app.js') }}"></script>
+
         </>
     );
 }

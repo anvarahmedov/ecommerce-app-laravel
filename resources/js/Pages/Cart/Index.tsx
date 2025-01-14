@@ -47,6 +47,9 @@ function Index(  {
         {cartItem.items.map((item: CartItemType) => (
             <CartItem item = {item} key = {item.id}/>
 ))}
+
+
+
     </div>
 ))}
                         </div>
