@@ -47,9 +47,9 @@ class CartService
         }
    }
 
-   public function updateItemQuantity(int $productID, int $quantity, $optionsIDs = null) {
+   public function updateItemQuantity(int $productID, int $quantity, $optionsIDs = null, $item) {
         if (Auth::check()) {
-            $this->updateItemQuantityInDatabase($productID, $quantity, $optionsIDs);
+            $this->updateItemQuantityInDatabase($productID, $quantity, $optionsIDs, $item);
         } else {
             $this->updateItemQuantityInCookies($productID, $quantity, $optionsIDs);
         }
@@ -177,12 +177,22 @@ class CartService
     return $total;
    }
 
-   protected function updateItemQuantityInDatabase(int $productID, int $quantity, $optionsIDs = null) {
+   protected function updateItemQuantityInDatabase(int $productID, int $quantity, $optionsIDs = null, $item) {
     $userID = Auth::id();
+
+    //dd($optionsIDs-);
+
+   // dd($quantity);
 
     $cartItem = CartItem::where('user_id', $userID)
     ->where('product_id', $productID)->where('variation_type_options_ids',
-json_decode($optionsIDs))->first();
+$optionsIDs)->first();
+
+//dd($item);
+
+$cartItem = CartItem::where('id', $item['id'])->first();
+
+//dd($cartItem);
 
 if ($cartItem) {
     $cartItem->update([

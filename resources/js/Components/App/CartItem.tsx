@@ -7,7 +7,7 @@ import { productRoute } from '@/helpers';
 
 function CartItem({item}: {item: CartItemType}) {
     const [quantity, setQuantity] = useState(item.quantity);
-   
+
 
     const deleteForm = useForm({
         options_ids: item.option_ids,
@@ -23,19 +23,51 @@ function CartItem({item}: {item: CartItemType}) {
         })
     }
 
-    const handleQuantityChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(ev.target.value);
-        setError('')
-        router.put(route('cart.update', item.product_id), {
-            quantity: ev.target.value,
-            options_ids: item.option_ids
-        }, {
+    const handleQuantityChange2 = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(ev.target.value, 10); // Parse the input value as an integer
+        if (isNaN(value) || value <= 0) {
+          setError('Quantity must be a positive number'); // Handle invalid input
+          return;
+        }
+
+        setError('');
+        setQuantity(value); // Update the state immediately for a responsive UI
+
+        // Send the update to the server
+        router.put(
+          route('cart.update', item.product_id),
+          {
+            quantity: value,
+            options_ids: item.option_ids,
+          },
+          {
             preserveScroll: true,
             onError: (errors) => {
-                setError(Object.values(errors)[0])
-            }
-        });
-    };
+              console.error('API Errors:', errors);
+              setError(Object.values(errors)[0]);
+            },
+          }
+        );
+      };
+
+    const handleQuantityChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('handleQuantityChange called');; // Debug log
+        setError('');
+        router.put(
+          route('cart.update', item.product_id),
+          {
+            quantity: ev.target.value,
+            options_ids: item.option_ids,
+            item:  item 
+          },
+          {
+            preserveScroll: true,
+            onError: (errors) => {
+              setError(Object.values(errors)[0]);
+            },
+          }
+        );
+      };
 
     return(
         <>
@@ -69,9 +101,7 @@ function CartItem({item}: {item: CartItemType}) {
                     <div className='flex gap-2 items-center'>
                         <div className='text-sm'>Quantity:</div>
                         <div className={error ? 'tooltip tooltip-open tooltip-error' : ''} data-tip={error}>
-                            <TextInput type="number"
-                            defaultValue={item.quantity} onBlur={handleQuantityChange}
-                            className="input-sm w-16"></TextInput>
+                        <TextInput type='number' value={item.quantity} onChange={handleQuantityChange} className='input-sm w-16'></TextInput>
                         </div>
                         <button onClick={(): any => onDeleteClick()} className='btn btn-sm btn-ghost'>
                             Delete

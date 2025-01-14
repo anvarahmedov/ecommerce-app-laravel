@@ -73,8 +73,10 @@ class CartController extends Controller
 
         $optionsIDs = $request->input('options_ids');
         $quantity = $request->input('quantity');
+        $item = $request->input('item');
+        //dd($item);
 
-        $cartService->updateItemQuantity($product->id, $quantity, $optionsIDs);
+        $cartService->updateItemQuantity($product->id, $quantity, $optionsIDs, $item);
 
         return back()->with('success', 'Product was updated');
     }
