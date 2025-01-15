@@ -323,6 +323,12 @@ if ($cartItem) {
    public function getCartItemsGrouped(): array {
     $cartItems = $this->getCartItems();
 
+    //dd(empty($cartItems));
+
+    if (empty($cartItems)) {
+        return $cartItems;
+    } else {
+
     return collect($cartItems)->groupBy(fn ($item) => $item['user']['id'])->
     map(fn ($items, $userID) => [
         'user' => $items->first()['user'],
@@ -331,5 +337,6 @@ if ($cartItem) {
         'totalPrice' => $items->sum(fn ($item) => $item['price'] * $item['quantity'])
     ])->toArray();
    }
+}
 
 }
