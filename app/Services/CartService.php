@@ -350,4 +350,31 @@ if ($cartItem) {
    }
 }
 
+    public function moveCartItemsToDatabase($userID) {
+        $cartItems = $this->getCartItemsFromCookies();
+
+        foreach ($cartItems as $itemKey => $cartItem) {
+            $existingItem = CartItem::where('user_id', $userID)
+            ->where('product_id', $cartItem['product_id'])->where('variation_type_options_ids',
+        json_encode($cartItem['option_ids']))->first();
+
+
+        if ($existingItem) {
+            $existingItem->update([
+                'quantity' => $existingItem->quantity = $cartItem['quantity'],
+                'price' => $cartItem['price']
+            ]);
+        } else {
+            CartItem::create([
+                'user_id' => $userID,
+                'product_id' => $cartItem['product_id'],
+                'quantity' => $cartItem['quantity'],
+                'price' => $cartItem['price'],
+                'variation_type_options_ids' => $cartItem['option_ids']
+            ]);
+        }
+    }
+        Cookie::queue(self::COOKIE_NAME, '', -1);
+    }
+
 }

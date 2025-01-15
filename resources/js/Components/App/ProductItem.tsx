@@ -7,12 +7,12 @@ function ProductItem({product}: {product: Product}) {
     const form = useForm<{
         options_ids: Record<string, number>;
         quantity: number;
-      //  price: number | null;
+        price: number | null;
 
        }>({
         options_ids: {},
         quantity: 1,
-      //  price: product.price
+        price: product.price
        })
 
     const addToCart = () => {
