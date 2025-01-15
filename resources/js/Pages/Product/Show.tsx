@@ -100,11 +100,12 @@ function Show({ product, variationOptions }: { product: Product, variationOption
    }
 
    const addToCart = () => {
+    form.setData('price', product.price);
     form.post(route('cart.store', product.id), {
         preserveScroll: true,
         preserveState: true,
         onError: (err: any) => {
-            console.log(err);
+        console.log(err);
         }
     })
    }

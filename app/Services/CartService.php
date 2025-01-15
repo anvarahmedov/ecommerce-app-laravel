@@ -24,7 +24,7 @@ class CartService
     protected const COOKIE_LIFETIME = 60 * 24 * 365;
 
 
-   public function addItemToCart(Product $product, int $quantity = 1, array $optionsIDs = null) {
+   public function addItemToCart(Product $product, int $quantity = 1, array $optionsIDs = null, int $priceForItem) {
     //dd($optionsIDs === null);
     if ($optionsIDs === null) {
             $optionsIDs = $product->variation_types->mapWithKeys(fn(VariationType $type)
@@ -33,10 +33,17 @@ class CartService
         )->toArray();
 
         }
+       // dd($priceForItem);
 
+        //dd(empty($optionsIDs));
 
+        if (empty($optionsIDs)) {
+            $price = $priceForItem;
+        } else {
+            $price = $product->getPriceForOptions($optionsIDs);
+        }
 
-        $price = $product->getPriceForOptions($optionsIDs);
+        //dd($price);
 
 
 
@@ -219,9 +226,13 @@ if ($cartItem) {
     $userID = Auth::id();
     ksort($optionsIDs);
 
+    //dd($price);
+
     $cartItem = CartItem::where('user_id', $userID)
     ->where('product_id', $productID)
     ->where('variation_type_options_ids', $optionsIDs)->first();
+
+    //dd($cartItem);
    // dd($cartItem,$productID, $quantity, $price, $optionsIDs);
     if ($cartItem) {
         $cartItem->update([
@@ -233,7 +244,7 @@ if ($cartItem) {
             'product_id' => $productID,
             'quantity' => $quantity,
             'price' => $price,
-            'variation_type_options_ids' => json_encode($optionsIDs)
+           'variation_type_options_ids' => json_encode($optionsIDs)
           // 'variation_type_options_ids' => $optionsIDs
         ]);
     }

@@ -33,18 +33,22 @@ class CartController extends Controller
     public function store(Request $request, Product $product, CartService $cartService)
     {
         $request->mergeIfMissing([
-            'quantity' => 1
+            'quantity' => 1,
+            //'price' => $product->price
         ]);
+
+        //dd($product->price);
 
         $data = $request->validate([
             'options_ids' => ['nullable', 'array'],
-            'quantity' => ['required', 'integer', 'min:1']
+            'quantity' => ['required', 'integer', 'min:1'],
+           // 'price' => ['required', 'integer', 'min:1']
         ]);
 
-      //  dd($product->price);
+       // dd($request->price);
 
         $cartService->addItemToCart($product, $data['quantity'],
-        $data['options_ids']);
+        $data['options_ids'], $product->price);
 
         return back()->with('success', 'Product added to cart successfully!');
 
