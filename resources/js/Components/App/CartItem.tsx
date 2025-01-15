@@ -58,7 +58,7 @@ function CartItem({item}: {item: CartItemType}) {
           {
             quantity: ev.target.value,
             options_ids: item.option_ids,
-            item:  item 
+            item:  item
           },
           {
             preserveScroll: true,
@@ -101,7 +101,7 @@ function CartItem({item}: {item: CartItemType}) {
                     <div className='flex gap-2 items-center'>
                         <div className='text-sm'>Quantity:</div>
                         <div className={error ? 'tooltip tooltip-open tooltip-error' : ''} data-tip={error}>
-                        <TextInput type='number' value={item.quantity} onChange={handleQuantityChange} className='input-sm w-16'></TextInput>
+                        <TextInput type='number' defaultValue={item.quantity} onBlur = {handleQuantityChange} onChange={handleQuantityChange} className='input-sm w-16'></TextInput>
                         </div>
                         <button onClick={(): any => onDeleteClick()} className='btn btn-sm btn-ghost'>
                             Delete
