@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(CartController::class)->group(function() {
-    Route::get('/cart', 'index')->name('cart.index');
+    Route::get('/cart', 'index')->name('cart.index')->middleware('auth:sanctum');
     Route::post('/cart/add/{product}',  'store')
     ->name('cart.store');
     Route::put('/cart/{product}', 'update')->name('cart.update');
