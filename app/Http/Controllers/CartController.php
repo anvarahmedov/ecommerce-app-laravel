@@ -48,7 +48,7 @@ class CartController extends Controller
        // dd($request->price);
 
         $cartService->addItemToCart($product, $data['quantity'],
-        $data['options_ids'], $product->price);
+        $data['options_ids'] ?: [], $product->price);
 
         return back()->with('success', 'Product added to cart successfully!');
 
@@ -75,7 +75,7 @@ class CartController extends Controller
 
        // dd($request);
 
-        $optionsIDs = $request->input('options_ids');
+        $optionsIDs = $request->input('options_ids') ?: [];
         $quantity = $request->input('quantity');
         $item = $request->input('item');
         //dd($item);
