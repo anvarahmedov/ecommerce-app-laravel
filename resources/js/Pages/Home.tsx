@@ -18,7 +18,7 @@ export default function Home({
         <AuthenticatedLayout>
             <Head title="Welcome" />
             <div className="hero bg-gray-750 h-[300px]">
-            <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet"></link>
+
               <div className="hero-content text-center font-huawei">
     <div className="max-w-md mt-12 sm:mt-16 md:mt-20 lg:mt-24">
       <h1 className="text-5xl font-bold">Hello there</h1>
@@ -26,7 +26,7 @@ export default function Home({
         Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
         quasi. In deleniti eaque aut repudiandae et a id nisi.
       </p>
-      <button className="btn btn-primary">Get Started</button>
+      <button className="btn btn-primary bg-emerald-500 hover:bg-emerald-300 border-0 rounded-xl">Get Started</button>
     </div>
   </div>
 </div>

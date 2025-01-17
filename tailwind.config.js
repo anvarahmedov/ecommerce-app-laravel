@@ -13,7 +13,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                merriweather: ['Merriweather', 'serif']
+                //merriweather: ['Merriweather', 'serif']
+                trebuchet: ['"Trebuchet MS"', 'sans-serif']
                         },            colors: {
                 purpure: '#F020D8',
                 mozilla_gray: '#808080'

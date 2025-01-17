@@ -41,7 +41,7 @@ function ProductItem({product}: {product: Product}) {
                    in <Link href='/' className='hover:underline'>{product.department.name}</Link>
                 </p>
                 <div className='card-actions items-center justify-between mt-3'>
-                    <button onClick={addToCart} className='btn btn-primary'>Add to cart</button>
+                    <button onClick={addToCart} className='btn btn-primary bg-emerald-500 hover:bg-emerald-300 border-0 rounded-xl'>Add to cart</button>
                     <span className='text-2xl'>
                         <CurrencyFormatter amount={product.price}/>
                     </span>

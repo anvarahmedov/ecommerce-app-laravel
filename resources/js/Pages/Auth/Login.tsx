@@ -105,7 +105,7 @@ export default function Login({
 
     {/* Wrapper for the button */}
     <div className="flex justify-end">
-        <PrimaryButton className="ms-0 text-purpure" disabled={processing}>
+        <PrimaryButton className="ms-0" disabled={processing}>
             <p className='ms-5 me-5'>Login</p>
         </PrimaryButton>
     </div>

@@ -166,7 +166,7 @@ const renderAddToCartButton = () => {
                     ))
                 }
             </select>
-            <button onClick={addToCart} className='btn btn-primary'>Add to cart</button>
+            <button onClick={addToCart} className='btn btn-primary bg-emerald-500 hover:bg-emerald-300 border-0 rounded-xl'>Add to cart</button>
         </div>
     );
 };

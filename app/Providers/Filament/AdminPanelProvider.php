@@ -66,7 +66,7 @@ $processedColor = $colorManager->processColor('#F020D8');
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])->font('Inter', 'https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+            ])->font('Trebuchet MS', 'https://fonts.googleapis.com/css2?family=Trebuchet+MS:wght@300;400;700&display=swap');
     }
 
     public function boot() {
