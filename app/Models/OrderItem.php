@@ -12,4 +12,8 @@ class OrderItem extends Model
     public function order() {
         return $this->belongsTo(Order::class);
     }
+
+    protected $casts = [
+        'variation_type_options_ids' => 'array'
+    ];
 }
