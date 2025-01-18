@@ -128,11 +128,11 @@ class CartController extends Controller
             foreach ($checkOutCartItems as $item) {
                 //dd($item);
 
-                if (array_key_exists('totalPrice', $item)) {
-                    $item['total_price'] = $item['totalPrice'];
-                    unset($item['totalPrice']);
-                }
-                dd($item);
+               // if (array_key_exists('totalPrice', $item)) {
+             //       $item['total_price'] = $item['totalPrice'];
+             //       unset($item['totalPrice']);
+             //   }
+              //  dd($item);
                 $user = $item['user'];
                 $cartItems = $item['items'];
 
@@ -140,7 +140,7 @@ class CartController extends Controller
                     'stripe_session_id' => null,
                     'user_id' => $request->user()->id,
                     'vendor_user_id' => $user['id'],
-                    'total_price' => $item['total_price'],
+                    'total_price' => $item['totalPrice'],
                     'status' => OrderStatusEnum::Draft->value
                 ]);
                 $orders[] = $order;
