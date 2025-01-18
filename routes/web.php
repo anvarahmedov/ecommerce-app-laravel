@@ -15,6 +15,8 @@ Route::get('/', [ProductController::class, 'home'])->name('dashboard')
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])
 ->name('product.show');
 
+Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
+
 //Route::get('/dashboard', function () {
  //   return Inertia::render('Dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
@@ -37,7 +39,7 @@ Route::controller(CartController::class)->group(function() {
     ->name('cart.store');
     Route::put('/cart/{product}', 'update')->name('cart.update');
     Route::delete('/cart/{product}', 'destroy')->name('cart.destroy');
-    Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
+
 });
 
 

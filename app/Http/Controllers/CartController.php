@@ -126,6 +126,13 @@ class CartController extends Controller
             $orders = [];
             $lineItems = [];
             foreach ($checkOutCartItems as $item) {
+                //dd($item);
+
+                if (array_key_exists('totalPrice', $item)) {
+                    $item['total_price'] = $item['totalPrice'];
+                    unset($item['totalPrice']);
+                }
+                dd($item);
                 $user = $item['user'];
                 $cartItems = $item['items'];
 
