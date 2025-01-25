@@ -16,4 +16,8 @@ class OrderItem extends Model
     protected $casts = [
         'variation_type_options_ids' => 'array'
     ];
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
 }
