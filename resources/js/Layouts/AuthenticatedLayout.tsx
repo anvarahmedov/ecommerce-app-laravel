@@ -4,7 +4,7 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
-import { PropsWithChildren, ReactNode, useState } from 'react';
+import { PropsWithChildren, ReactNode, useEffect, useRef, useState } from 'react';
 
 export default function AuthenticatedLayout({
     header,
@@ -13,8 +13,30 @@ export default function AuthenticatedLayout({
     const props = usePage().props;
     const user = props.auth.user;
 
+    const [successMessages, setSuccessMessages] = useState<any[]>([]);
+    const timeoutRefs = useRef<{ [key:number]: ReturnType<typeof setTimeout>}>({});
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    useEffect(() => {
+        if (props.success.message) {
+            const newMessage = {
+                ...props.success,
+                id: props.success.time,
+            };
+
+            setSuccessMessages((prevMessage) => [newMessage, ...prevMessage]);
+
+            const timeoutId = setTimeout(() => {
+                setSuccessMessages((prevMessages) => {
+                    return prevMessages.filter((msg) => msg.id !== newMessage.id);
+                });
+                delete timeoutRefs.current[newMessage.id]
+            }, 5000);
+            timeoutRefs.current[newMessage.id] = timeoutId
+        }
+    }, [props.success]);
 
     return (
 
@@ -30,6 +52,18 @@ export default function AuthenticatedLayout({
                     <div className='alert alert-error'>
                         {props.error}
                     </div>
+                </div>
+            )}
+
+            {successMessages.length > 0 && (
+                <div className='toast toast-top toast-end z-[1000] mt-16'>
+                    {successMessages.map(
+                        (msg) => (
+                            <div className='alert alert-success' key={msg.id}>
+                                <span>{msg.message}</span>
+                            </div>
+                        )
+                    )}
                 </div>
             )}
 
