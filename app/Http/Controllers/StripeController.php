@@ -35,8 +35,26 @@ class StripeController extends Controller
         ]);
     }
 
-    public function failure() {
+    public function failure(Request $request) {
+        $user = auth()->user();
+        $session_id = $request->get('session_id');
+        $orders = Order::where(
+            'stripe_session_id', $session_id
+        )->get();
 
+        if ($orders->count() === 0) {
+            abort(404);
+        }
+
+        foreach ($orders as $order) {
+            if ($order->user_id !== $user->id) {
+                abort(403);
+            }
+        }
+
+        return Inertia::render('Stripe/Failure', [
+            'orders' => OrderViewResource::collection($orders)->collection->toArray()
+        ]);
     }
 
     public function webhook(Request $request) {

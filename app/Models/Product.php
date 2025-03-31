@@ -78,15 +78,18 @@ class Product extends Model implements HasMedia
     public function getPriceForOptions($optionsIDs = []) {
 
         $optionsIDs = array_values($optionsIDs);
+
         sort($optionsIDs);
        // dd($this->variations);
         foreach($this->variations as $variation) {
             //dd('dsds');
             $a = $variation->variation_type_options_ids;
             sort($a);
-          //  dd($optionsIDs == $a);
+           // dd($optionsIDs == $a);
             if ($optionsIDs == $a) {
                 return $variation->price !== null ? $variation->price : $this->price;
+            } else {
+                return $this->price;
             }
         }
 

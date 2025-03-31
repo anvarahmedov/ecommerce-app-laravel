@@ -42,18 +42,18 @@ class CartController extends Controller
             //'price' => $product->price
         ]);
 
-        //dd($product->price);
 
         $data = $request->validate([
             'options_ids' => ['nullable', 'array'],
             'quantity' => ['required', 'integer', 'min:1'],
-           // 'price' => ['required', 'integer', 'min:1']
+         //   'price' => ['required', 'integer', 'min:1']
         ]);
 
-       // dd($request->price);
+        //dd($product->price);
+
 
         $cartService->addItemToCart($product, $data['quantity'],
-        $data['options_ids'] ?: [], $product->price);
+        $data['options_ids'] ?: [], priceForItem: $product->price);
 
         return back()->with('success', 'Product added to cart successfully!');
 
