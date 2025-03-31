@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 
 class CheckoutCompleted extends Mailable
@@ -16,7 +17,7 @@ class CheckoutCompleted extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public Collection $orders)
     {
         //
     }
@@ -27,7 +28,7 @@ class CheckoutCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Checkout Completed',
+            subject: 'Thank you for your purchase!',
         );
     }
 
@@ -37,7 +38,7 @@ class CheckoutCompleted extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.checkout_completed',
         );
     }
 

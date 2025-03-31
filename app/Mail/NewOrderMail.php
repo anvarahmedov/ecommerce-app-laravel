@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
 
 class NewOrderMail extends Mailable
@@ -16,7 +17,7 @@ class NewOrderMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public Order $order)
     {
         //
     }
@@ -37,7 +38,7 @@ class NewOrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.new_order',
         );
     }
 
