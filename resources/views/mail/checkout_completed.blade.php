@@ -1,5 +1,6 @@
 <x-mail::message>
-    <h1 style = "text-align:center; font-size:24px;">Payment was completed successfully</h1>
+    <h1 style="text-align:center; font-size:24px;">Payment was completed successfully</h1>
+
     @foreach ($orders as $order)
         <x-mail::table>
             <table>
@@ -7,8 +8,8 @@
                     <tr>
                         <td>Seller</td>
                         <td>
-                            <a href = "{{ url('/') }}">
-                                {{ $order->vendorUser->vendor->store_name }}
+                            <a href="{{ url('/') }}">
+                                {!! $order->vendorUser->vendor->store_name !!}
                             </a>
                         </td>
                     </tr>
@@ -22,7 +23,7 @@
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td>{{ \Illuminate\Support\Number::currency($order->total_price) }}</td>
+                        <td>{!! \Illuminate\Support\Number::currency($order->total_price) !!}</td>
                     </tr>
                 </tbody>
             </table>
@@ -44,35 +45,34 @@
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td padding = "5" style="padding:5px">
-
-                                                    <img style="min-width: 60px; max-width: 60px;" src="{{ $item->product->getImageForOptions($item->variation_type_option_ids) }}" alt=""/>
-
+                                            <td padding="5" style="padding:5px">
+                                                <img style="min-width: 60px; max-width: 60px;" src="{!! $item->product->getImageForOptions($item->variation_type_option_ids) !!}" alt=""/>
                                             </td>
-
                                             <td style="font-size:13px; padding:5px">
-                                                {{ $item->product->title }}
+                                                {!! $item->product->title !!}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ \Illuminate\Support\Number::currency($item->price) }}</td>
+                            <td>{!! $item->quantity !!}</td>
+                            <td>{!! \Illuminate\Support\Number::currency($item->price) !!}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </x-mail::table>
-        <x-mail::button :url="$order->id">
+
+        <x-mail::button :url="url('/orders/' . $order->id)">
             View Order Details
         </x-mail::button>
     @endforeach
-    
+
     <x-mail::panel>
         Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
     </x-mail::panel>
 
     Thanks,<br>
-    {{ config('app.name') }}
+    {!! config('app.name') !!}
 </x-mail::message>
+
