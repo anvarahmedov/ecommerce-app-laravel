@@ -60,11 +60,11 @@
                                 <tbody>
                                     <tr>
                                         <td padding="5" style="padding:5px">{{ $item->product->name }}
-                                            <img style="min-width: 60px; max-width: 60px;" src="{{ $orderItem->product->getImageForOptions($orderItem->variation_type_option_ids) }}" alt=""/>
+                                            <img style="min-width: 60px; max-width: 60px;" src="{{ $item->product->getImageForOptions($item->variation_type_option_ids) }}" alt=""/>
                                                  src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}">
                                         </td>
                                         <td style ="font-size: 13px; padding:5px">
-                                            {{$orderItem->product->title}}
+                                            {{$item->product->title}}
                                         </td>
                                     </tr>
                                     <tr>

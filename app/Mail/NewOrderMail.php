@@ -38,7 +38,7 @@ class NewOrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.new_order',
+            markdown: 'mail.new_order',
         );
     }
 
@@ -51,4 +51,6 @@ class NewOrderMail extends Mailable
     {
         return [];
     }
+
+    
 }
