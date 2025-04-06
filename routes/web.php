@@ -8,6 +8,7 @@ use Illuminate\Container\Attributes\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\StripeController;
+use App\RolesEnum;
 
 Route::get('/', [ProductController::class, 'home'])->name('dashboard')
 ->middleware('auth:sanctum');
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
+        Route::post('/stripe/connect', [StripeController::class, 'connect'])->name('stripe.connect')->middelware('[role:'
+     . RolesEnum::Vendor->value);
+
     });
 });
 
