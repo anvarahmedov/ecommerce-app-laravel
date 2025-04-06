@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 use App\Services\CartService;
+use App\Http\Resources\AuthUserResource;
 use App\Models\CartItem;
 
 class HandleInertiaRequests extends Middleware
@@ -48,7 +49,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
 
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? new AuthUserResource($request->user()) : null,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
