@@ -14,7 +14,9 @@ export default function VendorDetails(
     },
 ) {
     const [showBecomeVendorConfirmation, setShowBecomeVendorConfirmation] = useState(false);
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+
     const user = usePage().props.auth.user;
     const token = usePage().props.csrf_token;
     const {
@@ -23,16 +25,22 @@ export default function VendorDetails(
         post,
         processing,
         errors,
-        recentlySuccessful,
+
     } =
         useForm({
-            store_name: user.vendor?.store_name || user.name,
+            store_name: user.vendor?.store_name || user.name.toLowerCase()
+    .replace(/[^a-z0-9\s\-@.]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, ''),
             store_address: user.vendor?.store_address,
         });
 
         const onStoreChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
             setData('store_name', e.target.value.toLowerCase().replace(/\s+/g, '-'));
         }
+
+
 
         const becomeVendor:FormEventHandler = (ev: React.FormEvent<HTMLFormElement>) => {
             ev.preventDefault();
@@ -56,7 +64,13 @@ export default function VendorDetails(
                 preserveScroll: true,
                 onSuccess: () => {
                     closeModal();
+
                     setSuccessMessage('Your details have been updated');
+                    setRecentlySuccessful(true);
+                    setTimeout(() => {
+                        setRecentlySuccessful(false);
+                    }, 3000);
+
                 },
                 onError: () => {
                     setSuccessMessage('Something went wrong');
@@ -69,9 +83,15 @@ export default function VendorDetails(
             setShowBecomeVendorConfirmation(false);
         }
 
+        const onStoreNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setData('store_name', e.target.value.toLowerCase().replace(/\s+/g, '-'));
+        }
+
+
+
     return (
         <section className={props.className}>
-            {recentlySuccessful && <div className='toast toast-top toast-end'>
+            {recentlySuccessful && <div className='toast toast-top toast-end bg-green-500 text-white p-4 rounded mt-14 mr-5'>
             <div>
                     <span>{successMessage}</span>
             </div>
@@ -80,9 +100,9 @@ export default function VendorDetails(
             <header>
                 <h2 className="flex justify-between mb-8 text-lg font-medium text-gray-900 dark:text-gray-100">
                     Vendor Details
-                    {user.vendor?.status === 'pending' && <span className="badge badge-warning">user.vendor.status_label</span>}
-                    {user.vendor?.status === 'approved' && <span className="badge badge-success">user.vendor.status_label</span>}
-                    {user.vendor?.status === 'rejected' && <span className="badge badge-error">user.vendor.status_label</span>}
+                    {user.vendor?.status === 'pending' && <span className="badge badge-warning">{user.vendor.status_label}</span>}
+                    {user.vendor?.status === 'approved' && <span className="badge badge-success">{user.vendor.status_label}</span>}
+                    {user.vendor?.status === 'rejected' && <span className="badge badge-error">{user.vendor.status_label}</span>}
                 </h2>
 
 
@@ -115,16 +135,16 @@ export default function VendorDetails(
                         <div className='mb-4'>
                             <InputLabel htmlFor="address" value="Store Address"/>
 
-                            <textarea
+                            <TextInput
                                 className="mt-1 block w-full"
                                 value={data.store_address}
                                 onChange={(e) => setData('store_address', e.target.value) }
                                 placeholder="Enter your store address"
                                 >
-                            </textarea>
+                            </TextInput>
                             <InputError message={errors.store_address} className='mt-2'/>
                         </div>
-                        <div className='flex items-center gap-4'>
+                        <div className='flex items-center gap-4 py-4'>
                             <PrimaryButton disabled={processing}>
                                 Update
                             </PrimaryButton>
