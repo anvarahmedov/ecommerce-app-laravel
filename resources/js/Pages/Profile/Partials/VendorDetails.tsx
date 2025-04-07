@@ -1,6 +1,6 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import {useForm, usePage} from '@inertiajs/react';
-import React, {FormEventHandler,useRef, useState} from 'react';
+import React, {FormEventHandler, useState} from 'react';
 import SecondaryButton from '@/Components/SecondaryButton';
 import Modal from '@/Components/Modal';
 import InputLabel from '@/Components/InputLabel';
@@ -147,6 +147,25 @@ export default function VendorDetails(
                 )}
 
             </div>
+            <Modal show={showBecomeVendorConfirmation} onClose={closeModal}>
+                <form onSubmit={becomeVendor} className='p-8'>
+                    <h2 className='text-lg font-medium text-gray-900 dark:text-gray-100'>Are you sure to become a vendor?</h2>
+
+                    <div className = "mt-6 flex justify-end">
+                        <SecondaryButton
+
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </SecondaryButton>
+
+                        <PrimaryButton className='ms-3' disabled={processing}>
+                            Confirm
+                        </PrimaryButton>
+                    </div>
+                </form>
+            </Modal>
+
             </section>
     );
 }
