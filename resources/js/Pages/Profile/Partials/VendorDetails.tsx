@@ -153,13 +153,12 @@ export default function VendorDetails(
 
                     <div className = "mt-6 flex justify-end">
                         <SecondaryButton
-
                             onClick={closeModal}
                         >
                             Cancel
                         </SecondaryButton>
 
-                        <PrimaryButton className='ms-3' disabled={processing}>
+                        <PrimaryButton className='ms-3 ml-4' disabled={processing}>
                             Confirm
                         </PrimaryButton>
                     </div>

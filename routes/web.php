@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Container\Attributes\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\StripeController;
 use App\RolesEnum;
 
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
+
+        Route::post("/become-a-vendor", [VendorController::class, 'store'])->name('vendor.store');
+
         Route::post('/stripe/connect', [StripeController::class, 'connect'])->name('stripe.connect')->middleware('[role:'
      . RolesEnum::Vendor->value);
 

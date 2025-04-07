@@ -13,8 +13,8 @@ enum VendorStatusEnum: string
     public static function labels() {
         return [
             self::Pending->value => __('Pending'),
-            self::Approved => __('Approved'),
-            self::Rejected => __('Rejected'),
+            self::Approved->value => __('Approved'),
+            self::Rejected->value => __('Rejected'),
         ];
     }
 
