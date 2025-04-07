@@ -50,6 +50,12 @@ export default function VendorDetails(
                 onSuccess: () => {
                     closeModal();
                     setSuccessMessage('You can now create and publish products');
+
+                    setRecentlySuccessful(true);
+
+                    setTimeout(() => {
+                        setRecentlySuccessful(false);
+                    }, 3000);
                 },
                 onError: () => {
                     setSuccessMessage('Something went wrong');
@@ -65,8 +71,10 @@ export default function VendorDetails(
                 onSuccess: () => {
                     closeModal();
 
-                    setSuccessMessage('Your details have been updated');
+                    setSuccessMessage("Store details updated successfully");
+
                     setRecentlySuccessful(true);
+
                     setTimeout(() => {
                         setRecentlySuccessful(false);
                     }, 3000);
@@ -91,7 +99,7 @@ export default function VendorDetails(
 
     return (
         <section className={props.className}>
-            {recentlySuccessful && <div className='toast toast-top toast-end bg-green-500 text-white p-4 rounded mt-14 mr-5'>
+            {recentlySuccessful && <div className='toast toast-top toast-end bg-green-500 text-gray-800 p-4 sm:rounded-xl mt-14 mr-5'>
             <div>
                     <span>{successMessage}</span>
             </div>
@@ -154,6 +162,7 @@ export default function VendorDetails(
                     <form action={route('stripe.connect')}
                     method={'post'}
                     className='{my-8}'>
+                        <InputLabel htmlFor="stripe_account_active"/>
                         <input type = "hidden" name="_token" value={token}/>
                         {user.stripe_account_active && (<div className={'text-center text-gray-600 my-4 text-sm'}>
                             You are successfully connected to Stripe.
